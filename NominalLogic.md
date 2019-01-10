@@ -33,7 +33,18 @@ Names of what? Name of entities that may be subject to binding by some of the sy
 
 A syntactic category of *variables*, by which is usually meant entities that may be subject to substitution, might be represented in nominal logic by atoms or by constants, depending upon circumstances: constants will do in a situation where variables are never bound, but can be substituted; otherwise we should use atoms. Interestingly, we can make this distinction between 'bindable' names and names of constants entirely in terms of properties of swapping names, prior to any discussion of substitution and its properties.
 
-Emphasis on *swapping* two names, rather than on the apparently more primitive notion of *renaming* one name by another because the swapping operation is idempotent: a swap followed by the same swap is equivalent to doing nothing. As a consequence, the class of equivariant predicates, i.e. , has excellent logical properties; it contains the equality predicate and is closed under negation, conjugation, disjunction, existential and universal quantification, formation of least and greatest fixed points of monotone operators, etc. The same is not true for renaming. (E.g. the validity of a negated )
+Emphasis on *swapping* two names, rather than on the apparently more primitive notion of *renaming* one name by another because the swapping operation is idempotent: a swap followed by the same swap is equivalent to doing nothing. As a consequence, the class of equivariant predicates, i.e. , has excellent logical properties; it contains the equality predicate and is closed under negation, conjugation, disjunction, existential and universal quantification, formation of least and greatest fixed points of monotone operators, etc. The same is not true for renaming. (E.g. the validity of a negated eqaulity between atoms is not necessarily preserved under renaming.)
+
+One of the main messages of this paper:
+
+> We should take equivariance into account when we reason about syntactical structures.
+
+Take note of the fact that:
+
+> Name swapping and equivariance property provide a simple and useful foundation for discussing properties of names and binding in syntax.
+
+E.g. a simple example from type theory:
+
 
 
 

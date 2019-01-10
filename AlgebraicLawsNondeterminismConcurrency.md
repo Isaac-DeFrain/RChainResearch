@@ -1,0 +1,35 @@
+# Algebraic Laws for Nondeterminism and Concurrency - Matthew Hennessey, Robin Milner
+
+#### Abstract
+Since a nondeterministic and concurrent program may, in general, communicate reaptedly with its environment, its meaning cannot be be presented naturally as an input/output function (as is often done in the denotational approach to semantics). This is an alternative viewpoint. First, a definition is given of what it is for two programs or program parts to be equivalent for all observers; then two program parts are said to be *observation congruent* if and only if they are equivalent in all program contexts. The *behavior* of a program part, i.e. its meaning, is defined to be its observation congruence class.
+
+Algebraic axiomatization of observation congruence for a sequence of simple languages expressing finite (terminating) behaviors. Moreover with addition of recursion and another simple extension, the algebraic language described here becomes a calculus for writing and specifying concurrent programs and for proving their properties.
+
+## Introduction
+If either the mathematics or the logic is to have any relevance, a link must be made between the denotational model and the behavior, or operational semantics, of the programs. One way of making a link is to demand that the denotational model be *fully abstract* with respect to the operational semantics. This means
+
+> Two program phrases should have should have the same denotation if and only if the operational meaning of every program remains unchaged when one phrase is replaced by the other.
+
+Exact meaning of behavior of nondeterministic or concurrent programs is far from clear and one possible definition is introduced in this paper. The essence of the approach:
+
+> 
+
+## Observational Equivalence of Processes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
