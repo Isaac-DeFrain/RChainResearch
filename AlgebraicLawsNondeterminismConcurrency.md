@@ -32,29 +32,30 @@ In the case of deterministic sequential programs, the behavior of a program `p` 
 
 However, any satisfactory comparison of the behavior of concurrent programs must take into account their intermediate states as they progress through a computation, because differing intermediate states can be exploited in different program contexts to produce different overall behavior (e.g. deadlock). With this in mind, we now proceed to a more refined notion of behavioral equivalence, called *observational equivalence*. This notion may be defined for objects more general than programs, which we call *processes*.
 
-Let `Proc` be a set of objects that we may think of as processes. We take the view that any observation of `P \in Proc` entails some participation by `P` itself; `P` is an *active participant*, as well as the observer. Thus the act of observing a process changes its state. If we identify the state of a process with the process itself, we can say that observation changes the process into a new process. This change may not be deterministic; hence the effect of a particular type of observation - applied to an arbitrary process - may be captured by a binary relation over `Proc`. In general, we presuppose a set `I` of possible types of observation, so we then have a set of observation relations.
+Let `Proc` be a set of objects that we may think of as processes. We take the view that any observation of `P \in Proc` entails some participation by `P` itself; `P` is an *active participant*, as well as the observer. Thus the act of observing a process changes its state. If we identify the state of a process with the process itself, we can say that observation changes the process into a new process. This change may not be deterministic; hence the effect of a particular type of observation - applied to an arbitrary process - may be captured by a binary relation over `Proc`. In general, we presuppose a set `I` of possible types of observation, so we then have a set of *observation relations*.
 ```
         { R(i) \subset Proc * Proc, i \in I }
 ```
 
 Using these relations, we define a sequence of equivalence relations `~n` over `Proc` (`n = 0,1,2,...`), in such a way `~n+1 \subset ~n`, as follows:
-* `p ~0 q` if `p,q \in Proc` (i.e. `~0 = Proc * Proc`)
-* `p ~n+1 q` if for every `i \in I`,
-  * `(p,p') \in R(i)` implies, for some `q'`, `(q,q') \in R(i)` and `p' ~n q'`
-  * `(q,q') \in R(i)` implies, for some `p'`, `(p,p') \in R(i)` and `p' ~n q'`
+* `P ~0 Q` if `P,Q \in Proc` (i.e. `~0 = Proc * Proc`)
+* `P ~n+1 Q` if for every `i \in I`,
+  * `(P,P') \in R(i)` implies, for some `Q'`, `(Q,Q') \in R(i)` and `P' ~n Q'`
+  * `(Q,Q') \in R(i)` implies, for some `P'`, `(P,P') \in R(i)` and `P' ~n Q'`
 
-The `p` and `q` are *observationally equivalent*, written `p ~ q`, if `p ~n q` for every `n`.
+The `p` and `q` are *observationally equivalent*, written `P ~ Q`, if `P ~n Q` for every `n`.
 
-Thus, we have defined `~` to be `\cap_n ~n`, i.e. the intersection of `~n` for all `n`. In fact, we have taken `~` to be the limit `\cap_n En(Proc * Proc)`, where `E(S)` is defined for any `S \subset Proc * Proc` as follows: `(p,q) \in E(S)` if for every `i \in I`
-* `(p,p') \in R(i)` implies, for some `q'`, `(q,q') \in R(i)` and `(p',q') \in S`
-* `(q,q') \in R(i)` implies, for some `p'`, `(p,p') \in R(i)` and `(p',q') \in S`
+Thus, we have defined `~` to be `\cap_n ~n`, i.e. the intersection of `~n` for all `n`. In fact, we have taken `~` to be the limit `\cap_n En(Proc * Proc)`, where `E(S)` is defined for any `S \subset Proc * Proc` as follows:
+* `(P,Q) \in E(S)` if for every `i \in I`
+  * `(P,P') \in R(i)` implies, for some `Q'`, `(Q,Q') \in R(i)` and `(P',Q') \in S`
+  * `(Q,Q') \in R(i)` implies, for some `P'`, `(P,P') \in R(i)` and `(P',Q') \in S`
 
 Now if `E` has the property that `E(\cap_n Sn) = \cap_n (E(Sn))` for every decreasing sequence `Sn` of relations, i.e. if `E` is *anticontinuous*, then it follows from classical fixed-point theory that `~` is the maximum fixed-point of the map `E` of relations.
 
-`R \subset Proc * Proc` is *image-finite* if, for each `p \in Proc`, `{ p' | (p,p') \in R }` is finite. It turns out that the image-finiteness of each `R(i)`, `i \in I`, is sufficient to ensure that `E` is anticontinuous, so the following theorem holds:
+`R \subset Proc * Proc` is *image-finite* if, for each `P \in Proc`, `{ P' | (P,P') \in R }` is finite, i.e. each "input" has finitely many "images". It turns out that the image-finiteness of each `R(i)`, `i \in I`, is sufficient to ensure that `E` is anticontinuous, so the following theorem holds:
 
-> **Theorem 2.1** If `R(i)` is image-finite for each `i \in I`, then `~` is the maximum solution to `S = E(S)`.
+> **Theorem 2.1:** If `R(i)` is image-finite for each `i \in I`, then `~` is the maximum solution to `S = E(S)`.
 
-So far we have called `i \in I` a *type* of observation, and then an instance `(p,p') \in R(i)` is a particular observation (of `p`). It can also regarded as a communication between `p` and an observer; in some of the program languages that will be introduced, we exploit this symmetry by representing communication between two processes `p` and `q`, running concurrently, as *mutual observation* between the processes.
+So far we have called `i \in I` a *type* of observation, and then an instance `(P,P') \in R(i)` is a particular observation (of `P`). It can also regarded as a communication between `P` and an observer; in some of the program languages that will be introduced, we exploit this symmetry by representing communication between two processes `P` and `Q`, running concurrently, as *mutual observation* between the processes.
 
-We can also regard a single observation `(p,p') \in R(i)` as an *atomic experiment* 
+We can also regard a single observation `(P,P') \in R(i)` as an *atomic experiment* by the observer on `P`. A more complicated experiment may consist of a finite sequence of atomic experiments. 
