@@ -43,9 +43,9 @@ Using these relations, we define a sequence of equivalence relations `~n` over `
   * `(P,P') \in R(i)` implies, for some `Q'`, `(Q,Q') \in R(i)` and `P' ~n Q'`
   * `(Q,Q') \in R(i)` implies, for some `P'`, `(P,P') \in R(i)` and `P' ~n Q'`
 
-The `p` and `q` are *observationally equivalent*, written `P ~ Q`, if `P ~n Q` for every `n`.
+The `P` and `Q` are *observationally equivalent*, written `P ~ Q`, if `P ~n Q` for every `n`.
 
-Thus, we have defined `~` to be `\cap_n ~n`, i.e. the intersection of `~n` for all `n`. In fact, we have taken `~` to be the limit `\cap_n En(Proc * Proc)`, where `E(S)` is defined for any `S \subset Proc * Proc` as follows:
+Thus, we have defined `~` to be `\cap_n ~n`, i.e. the intersection of `~n` for all `n`. In fact, we have taken `~` to be the limit `\cap_n E(~n)`, where `E(S)` is defined for any `S \subset Proc * Proc` as follows:
 * `(P,Q) \in E(S)` if for every `i \in I`
   * `(P,P') \in R(i)` implies, for some `Q'`, `(Q,Q') \in R(i)` and `(P',Q') \in S`
   * `(Q,Q') \in R(i)` implies, for some `P'`, `(P,P') \in R(i)` and `(P',Q') \in S`
@@ -56,6 +56,16 @@ Now if `E` has the property that `E(\cap_n Sn) = \cap_n (E(Sn))` for every decre
 
 > **Theorem 2.1:** If `R(i)` is image-finite for each `i \in I`, then `~` is the maximum solution to `S = E(S)`.
 
-So far we have called `i \in I` a *type* of observation, and then an instance `(P,P') \in R(i)` is a particular observation (of `P`). It can also regarded as a communication between `P` and an observer; in some of the program languages that will be introduced, we exploit this symmetry by representing communication between two processes `P` and `Q`, running concurrently, as *mutual observation* between the processes.
+So far we have called each `i \in I` a *type* of observation, and then an instance `(P,P') \in R(i)` a particular observation (of `P`). It can also regarded be as a communication between `P` and an observer; in some of the program languages that will be introduced, we exploit this symmetry by representing communication between two processes `P` and `Q`, running concurrently, as *mutual observation* between the processes.
 
-We can also regard a single observation `(P,P') \in R(i)` as an *atomic experiment* by the observer on `P`. A more complicated experiment may consist of a finite sequence of atomic experiments. 
+We can also regard a single observation `(P,P') \in R(i)` as an *atomic experiment* by the observer on `P`. A more complicated experiment may consist of a finite sequence of atomic experiments. Let `s` be the sequence `i1,...,in` in `I` (`n \geq 0`); then an `s`-*experiment* on `P` is a sequence `P0,...,Pn` where `P0 = P` and `(Pk-1,Pk) \in R(ik)`. Thus, if `P ~ Q` and some `s`-experiment leads from `P` to `P'`, then (assuming image-finiteness) by theorem 2.1 there exists an `s`-experiment on `Q` leading to some `Q'` such that `Q ~ Q'`.
+
+>If we consider a computation as a sequence of experiments (or communications), then the above remarks show that intermediate states are compared. In fact, if `P` is to be equivalent to `Q`, there must be a strong relationship between their respective intermediate states.
+
+At each intermediate stage in the computations, the respective "potentials" must also be the same. The principal reason for introducing this alternative characterization is to justify our interest in the notion of observational equivalence despite its rather complicated definition. Moreover, we will find it easier to compare it with simpler forms of equivalence that one might be tempted to define. One such equivalence is:
+```
+        P ~e Q if for every s \in I*,
+            P has an s-experiment if and only if Q has an s-experiment.
+```
+
+This 
