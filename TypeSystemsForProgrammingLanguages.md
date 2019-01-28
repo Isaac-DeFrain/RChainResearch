@@ -16,19 +16,19 @@ The abstract syntax of `L^{Int, Bool}` is defined as follows:
 
 *Rules for deriving typing judgments*:
 ```
-* {n}     : Int (for n \in \omega)
+*   {n} : Int   (for n \in \omega)
 
-* true    : Bool
+*  true : Bool
 
-* false   : Bool
+* false : Bool
 
-* e1:Int  , e2:Int => e1 + e2:Int
+* e1:Int  /\ e2:Int -> e1 + e2:Int
 
-* e1:Int  , e2:Int => e1 - e2:Int
+* e1:Int  /\ e2:Int -> e1 - e2:Int
 
-* e1:Int  , e2:Int => e1 = e2:Bool
+* e1:Int  /\ e2:Int -> e1 = e2:Bool
 
-* e1:Bool , e2:T , e3:T  => if_t e1 then e2 else e3 fi:T
+* e1:Bool /\ e2:T /\ e3:T  -> if_t e1 then e2 else e3 fi:T
 ```
 
 These rules are said to be *syntax-directed* because at most one rule applies to any expression, and that rule is determined by the outermost form of that expression.
@@ -62,5 +62,20 @@ The *one-step evaluation* relation `e |-> e'` is defined to hold iff `e = E[r]`,
 2. If `v` is not a value, then there is at most one `E` such that `v = E[r]` and `r` is a redex.
 
 ##### Theorem 1.2 (Determinacy)
-
 For any closed expression `e`, there is at most one value `v` such that `e |->* v`, i.e. `|->*` is a function.
+
+#### Evaluation semantics
+```
+    {n} => {n}
+   true => true
+  false => false
+  e1 => {n1}  /\ e2 => {n2} -> e1 + e2 => {n1 + n2}
+  e1 => {n1}  /\ e2 => {n2} -> e1 - e2 => {n1 - n2}
+  e1 => {n1}  /\ e2 => {n2} -> e1 = e2 => true (if n1 = n2)
+  e1 => {n1}  /\ e2 => {n2} -> e1 = e2 => false (if n1 =/= n2)
+  e1 => true  /\ e2 =>  v   -> if_t e1 then e2 else e3 fi => v
+  e1 => false /\ e3 =>  v   -> if_t e1 then e2 else e3 fi => v
+```
+
+##### Theorem 1.4 (Determinacy):
+For every closed expression `e` there is at most one `v` such that `e => v`.
