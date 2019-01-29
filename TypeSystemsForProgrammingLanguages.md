@@ -46,9 +46,9 @@ An *evaluation context* is an expression fragment with a designated "hole", `[]`
 
 The primitive reduction relation defines the primitive operations (primops) on values:
 ```
-  {n1} + {n2} ~> {n1 + n2}
-  {n1} - {n2} ~> {n1 - n2}
-  {n1} = {n2} ~> true if n1 = n2, false otherwise
+                    {n1} + {n2} ~> {n1 + n2}
+                    {n1} - {n2} ~> {n1 - n2}
+                    {n1} = {n2} ~> true (n1 = n2), false (otherwise)
   if_t true  then e1 else e2 fi ~> e1
   if_t false then e1 else e2 fi ~> e2
 ```
@@ -64,18 +64,76 @@ The *one-step evaluation* relation `e |-> e'` is defined to hold iff `e = E[r]`,
 ##### Theorem 1.2 (Determinacy)
 For any closed expression `e`, there is at most one value `v` such that `e |->* v`, i.e. `|->*` is a function.
 
-#### Evaluation semantics
+#### Evaluation Semantics
 ```
-    {n} => {n}
-   true => true
-  false => false
-  e1 => {n1}  /\ e2 => {n2} -> e1 + e2 => {n1 + n2}
-  e1 => {n1}  /\ e2 => {n2} -> e1 - e2 => {n1 - n2}
-  e1 => {n1}  /\ e2 => {n2} -> e1 = e2 => true (if n1 = n2)
-  e1 => {n1}  /\ e2 => {n2} -> e1 = e2 => false (if n1 =/= n2)
-  e1 => true  /\ e2 =>  v   -> if_t e1 then e2 else e3 fi => v
-  e1 => false /\ e3 =>  v   -> if_t e1 then e2 else e3 fi => v
+                                                        {n} => {n}
+                                                       true => true
+                                                      false => false
+                     e1 => {n1}  /\ e2 => {n2}  ==> e1 + e2 => {n1 + n2}
+                                  .             ==> e1 - e2 => {n1 - n2}
+                                  .             ==> e1 = e2 => true  (n1 = n2)
+                                  .             ==>    .    => false (n1 =/= n2)
+      e1 => true /\ e2 => v  ==> if_t e1 then e2 else e3 fi => v
+     e1 => false /\ e3 => v  ==> if_t e1 then e2 else e3 fi => v
 ```
 
 ##### Theorem 1.4 (Determinacy):
 For every closed expression `e` there is at most one `v` such that `e => v`.
+
+> The evaluation semantics is equivalent to the contextual semantics in the sense that `e => v  <->  e |->* v`.
+>
+>Proof:
+>
+>1. The relation `e |->* v` is closed under the defining conditions of the `=>` relation, the smallest such relation. Thus `e => v  ->  e |->* v`.
+>2. The `=>` relation is closed under "head expansion", i.e. if `e => v /\ e' |-> e  ->  e' => v`.
+>3. `e |->* v  ->  e => v`
+
+##### Facts about Contextual Semantics
+1. If `e1 + e2 |->* v`, then `e1 |-> v1` and `e2 |-> v2` for some values `v1`, `v2`. (A similar property holds for the other primitive operations of `L^{Int, Bool}`)
+2. If `if_t e then e1 else e2 fi |->* v`, then `e |->* v'` for some value `v'`.
+
+### Type Soundness
+
+##### Lemma 1.7 (Replacement):
+````
+  E[e] : t  ==>  \exists t_e (e : t_e /\ \forall e' ( e' : t_e /\ E[e'] : t ) )
+```
+
+##### Lemma 1.8 (Subject Reduction):
+```
+  e ~> e' /\ e : t  ==>  e' : t
+```
+
+##### Lemma 1.9 (Preservation):
+```
+  e |-> e' /\ e : t  ==>  e' : t
+```
+
+##### Lemma 1.10 (Canonical Forms):
+```
+  v : Int   ==>  \exists n (v = {n})
+  v : Bool  ==>  true \xor false
+```
+##### Theorem 1.11 (Progress):
+If `e : t`, then either `e` is a value, or `\there e' (e |-> e')`
+
+##### Type Soundness in Evaluation Semantics
+We begin be introducing the notion of an *answer* which is the ultimate result of evaluation.
+```
+  *Answers*     a ::= Ok(v) | Wrong
+```
+
+Define `a : t` iff `a = Ok(v)` and `v : t`. Thus `Wrong` is ill-typed.
+
+
+## Function and Product Types
+We consider the language `L^{1, /times, ->}` with product and function types.
+
+### Statics
+The abstract syntax of `L^{1, \times, ->}` is given by the following grammar
+```
+  *Types*         t ::= Unit | t1 \times t2 | t1 -> t2
+  *Expressions*   e ::= x | <e1,e2>_{t1,t2} | proj1_{t1,t2}(e) | proj2_{t1,t2}(e) | fun(x:t1):t2 in e | app_{t1,t2}(e1,e2)
+```
+
+In the expression `fun(x:t1):t2 in e` the variable `x` is bound in `e`.
