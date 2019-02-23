@@ -13,7 +13,7 @@ The fact that the [`pi`-calculus](http://www.lfcs.inf.ed.ac.uk/reports/91/ECS-LF
 Reasoning foundationally, when names have structure, name equality becomes a computation; but, if our theory of interaction is to provide a basis for a theory of computation - especially of *distibuted* computation - then certainly this computation must be accounted for as well.
 
 ### Overview and contributions
-The introduction of a *process constructor to dynamically convert a porcess into its code* is essential to obtain computational completeness, and simultaneously supplants the function of the `nu` operator (a compositional encoding of the `nu` operator into the calculus is given in [A Reflective High-Order Calculus]().
+The introduction of a *process constructor to dynamically convert a porcess into its code* is essential to obtain computational completeness, and simultaneously supplants the function of the `nu` operator (a compositional encoding of the `nu` operator into the calculus is given in [A Reflective High-Order Calculus](https://www.sciencedirect.com/science/article/pii/S1571066105051893).
 
 Hennessey-Milner logic for `rho`-calculus is a *spatial logic* with operators detecting structural as well as behavioral content of of processes. The additional reflective structure on names gives rise to a new class of formulae denoting sets of *names*, referred to in the sequel as **namespaces**, hence the name *namespace logic*.
 
