@@ -101,33 +101,33 @@ The semantics of the logic are given in terms of sets of processes (and names). 
 The meaning of formulae is given by two mutually recursive functions
 ```
     [[-]](-): PForm x [V -> P(Proc)] -> P(Proc)
-		((-))(-): QForm x [V -> P(Proc)] -> P(@Proc)
+    ((-))(-): QForm x [V -> P(Proc)] -> P(@Proc)
 ```
 
 taking a formula of the appropriate type and a valuation, and returning a set of processes or names, respectively.
 
 ```
-    [[ true  ]](v) = Proc
-    [[   0   ]](v) = {P: P \equiv 0}
-    [[  ~F   ]](v) = Proc \ [[F]](v)
-    [[ F & G ]](v) = [[F]](v) \cap [[G]](v)
-    [[ F | G ]](v) = {P: \exists P0, P1. P \equiv P0 | P1, P0 \in [[F]](v), P1 \in [[G]](v)}
-    [[  * b  ]](v) = {P: \exists Q. P \equiv Q | *x, x \in ((b))(v)}
-    [[ a!(F) ]](v) = {P: \exists P',Q. P \equiv Q | x!(P'), x \in ((a))(v), P' \in [[F]](v)}
-    [[<a?b>F ]](v) = {P: \exists P',Q. P \equiv Q | x(y).P', x \in ((a))(v), \forall c. \exists z. P{z / y} \in [[F{c / b}]](v)}
-    [[rec X.F]](v) = \cup {S \subset Proc: S \subset [[F]](v{S / X})}
-    [[\forall n:G.F]](v) = \cap_{x \in ((@G))(v)} [[F{x / n}]](v)
-    ((@F))(v) = {x: x \equiv_N @P, P \in [[F]](v)}
-    ((@P))(v) = {x: x \equiv_N @P}
+      [[ true  ]](v) = Proc
+      [[   0   ]](v) = {P: P \equiv 0}
+      [[  ~F   ]](v) = Proc \ [[F]](v)
+      [[ F & G ]](v) = [[F]](v) \cap [[G]](v)
+      [[ F | G ]](v) = {P: \exists P0, P1. P \equiv P0 | P1, P0 \in [[F]](v), P1 \in [[G]](v)}
+      [[  * b  ]](v) = {P: \exists Q. P \equiv Q | *x, x \in ((b))(v)}
+      [[ a!(F) ]](v) = {P: \exists P',Q. P \equiv Q | x!(P'), x \in ((a))(v), P' \in [[F]](v)}
+      [[<a?b>F ]](v) = {P: \exists P',Q. P \equiv Q | x(y).P', x \in ((a))(v), \forall c. \exists z. P{z / y} \in [[F{c / b}]](v)}
+      [[rec X.F]](v) = \cup {S \subset Proc: S \subset [[F]](v{S / X})}
+[[\forall n:G.F]](v) = \cap_{x \in ((@G))(v)} [[F{x / n}]](v)
+           ((@F))(v) = {x: x \equiv_N @P, P \in [[F]](v)}
+           ((@P))(v) = {x: x \equiv_N @P}
 ```
 
 We say that a process `P` witnesses a formula `F` (resp. a name `x` witnesses `@F`), written `P |= F` (resp. `x |= @F`), when `\forall v. P \in [[F]](v)` (resp. `\forall v. x \in ((@F))(v)`).
 
 #### Theorem 1
 ```
-    P ~ Q  <=> \forall F. P |= F <=> Q |= F
+    P ~ Q  <=> (\forall F. P |= F <=> Q |= F)
 ```
-The processes `P`, `Q` are bisimilar if and only if for all formulae `F`, `P` witnesses `F` if and only if `Q` witnesses `F`.
+The processes `P`, `Q` are *bisimilar* if and only if for all formulae `F`, `P` *witnesses* `F` if and only if `Q` *witnesses* `F`.
 
 ### Controlling Access to Namespaces
 Suppose that `@F` describes some namespace, i.e. a collection of names. We can insist that a process restrict its next input to names in that namespace by insisting that it witness the formula
@@ -135,7 +135,7 @@ Suppose that `@F` describes some namespace, i.e. a collection of names. We can i
     <@F?b>true & ~<@(~F)?b>true
 ```
 
-which simply says that the process is currently able to take input from a name in the namespace `@F` and is not capable of taking input from any name outside of the namespace.
+which simply says that *the process is currently able to take input from a name in the namespace* `@F` *and is not capable of taking input from any name outside of the namespace*.
 
 We can also limit a server to serving only names in `@F` throughout the lifetime of its behavior
 ```
