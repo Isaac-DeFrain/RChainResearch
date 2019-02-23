@@ -8,7 +8,7 @@ Practically, whether we consider MAC/IP addresses, domain names, or URL's, it is
 
 Theoretically, nowhere in the tools available to the computer scientist is there a countably infinite set of *atomic* entities that might function as names. All such sets, e.g. the natural numbers, the set of strings of finite length on some alphabet, etc., are *generated* from a finite presentation, and as such the elements of these sets inherit *structure* from the generating procedure. This structure can be "forgotten", but comes to the fore when building *executable* models of these calculi.
 
-The fact that the [`pi`-calculus]() is not a closed theory, but rather a theory dependent upon some theory of names is both enabling and limiting. Biztalk: tcp/ip ports, urls, object references, etc.
+The fact that the [`pi`-calculus](http://www.lfcs.inf.ed.ac.uk/reports/91/ECS-LFCS-91-180/) is not a closed theory, but rather a theory dependent upon some theory of names is both enabling and limiting. Biztalk: tcp/ip ports, urls, object references, etc.
 
 Reasoning foundationally, when names have structure, name equality becomes a computation; but, if our theory of interaction is to provide a basis for a theory of computation - especially of *distibuted* computation - then certainly this computation must be accounted for as well.
 
